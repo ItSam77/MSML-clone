@@ -13,8 +13,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Preprocess dataset
-        working-directory: kriteria1
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.7'
+
+      - name: Install dependencies
         run: |
-          python preprocess.py
+          pip install -r requirements.txt
+
+      - name: Preprocess dataset
+        working-directory: kriteria1/preprocessing/
+        run: |
+          python automation.py
+
+      - name: Upload preprocessed dataset
+        uses: actions/upload-artifact@v4
+        with:
+          name: preprocessed-dataset
+          path: preprocess.csv
 
