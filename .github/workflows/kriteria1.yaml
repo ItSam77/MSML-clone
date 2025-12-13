@@ -1,0 +1,20 @@
+name: PreProcessing dataset
+
+on:
+  push:
+    branches:
+      - main
+      - test
+
+jobs:
+  preprocess:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Preprocess dataset
+        working-directory: kriteria1
+        run: |
+          python preprocess.py
+

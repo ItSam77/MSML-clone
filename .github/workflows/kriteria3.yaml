@@ -1,0 +1,11 @@
+name: Kriteria 3
+
+on:
+  push:
+    branches:
+      - main
+      - test
+
+jobs:
+  # TODO: Add jobs here
+
