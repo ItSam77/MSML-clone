@@ -1,0 +1,35 @@
+name: PreProcessing dataset
+
+on:
+  push:
+    branches:
+      - main
+      - test
+
+jobs:
+  preprocess:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.7'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Preprocess dataset
+        working-directory: kriteria1/preprocessing/
+        run: |
+          python automation.py
+
+      - name: Upload preprocessed dataset
+        uses: actions/upload-artifact@v4
+        with:
+          name: preprocessing-data
+          path: kriteria1/preprocessing/preprocess.csv
+
