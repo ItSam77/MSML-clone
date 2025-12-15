@@ -27,9 +27,11 @@ jobs:
       
 
       - name: Build Docker image
+        working-directory: kriteria3/
         run: |
-          docker build -t itsam77/msmlclone:kriteria3 kriteria3/
+          docker build -t itsam77/msmlclone:kriteria3 .
 
       - name: Push Docker image
+        working-directory: kriteria3/
         run: |
           docker push itsam77/msmlclone:kriteria3
