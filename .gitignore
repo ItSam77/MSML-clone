@@ -1,2 +1,6 @@
 venv/
 __pycache__/
+kriteria2/mlruns/	
+mlruns/
+kriteria2/artifacts/
+artifacts/
