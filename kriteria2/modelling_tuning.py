@@ -8,18 +8,23 @@ import mlflow.sklearn
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import dagshub
 
 import warnings
 import os
 warnings.filterwarnings("ignore")
 
-# Set tracking URI ke folder kriteria2 agar mlruns dan mlartifacts ada di sini
-current_dir = os.path.dirname(os.path.abspath(__file__))
-mlflow.set_tracking_uri(f"file:///{current_dir}/mlruns")
+# Set Dagshub credentials
+dagshub.init(repo_owner="ItSam77", repo_name="msmlclone", mlflow=True)
+
+# # Set tracking URI ke folder kriteria2 agar mlruns dan mlartifacts ada di sini
+# current_dir = os.path.dirname(os.path.abspath(__file__))
+mlflow.set_tracking_uri("http://localhost:5000")
+mlflow.set_tracking_uri("https://dagshub.com/ItSam77/msmlclone.mlflow")  # Uncomment this to use Dagshub
 mlflow.set_experiment("Hyperparameter Tuning Random Forest")
 
 # Buat folder artifacts di dalam kriteria2
-artifacts_dir = "artifacts"
+artifacts_dir = "kriteria2/artifacts"
 os.makedirs(artifacts_dir, exist_ok=True)
 
 df = pd.read_csv("preprocess.csv")
