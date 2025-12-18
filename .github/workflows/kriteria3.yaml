@@ -18,6 +18,10 @@ jobs:
         with:
           python-version: '3.12.7'
 
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
       - name: Run MLflow Project
         working-directory: kriteria3/
         run: |
