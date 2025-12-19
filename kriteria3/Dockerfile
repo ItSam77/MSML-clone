@@ -15,8 +15,4 @@ COPY . .
 EXPOSE 5000
 
 # Run MLflow server
-CMD ["mlflow", "server", \
-     "--host", "0.0.0.0", \
-     "--port", "5000", \
-     "--backend-store-uri", "sqlite:///mlruns.db", \
-     "--default-artifact-root", "./mlruns"]
+CMD ["mlflow", "models", "serve", "-m", "./model", "-h", "0.0.0.0", "-p", "5000", "--no-conda"]
