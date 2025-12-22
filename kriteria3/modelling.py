@@ -8,9 +8,12 @@ import mlflow
 import mlflow.sklearn
 
 import warnings
+import os
 warnings.filterwarnings("ignore")
 
-mlflow.set_tracking_uri("http://localhost:5000")
+# Use local tracking for CI/CD, or remote for local dev
+tracking_uri = os.getenv("MLFLOW_TRACKING_URI", "mlruns")
+mlflow.set_tracking_uri(tracking_uri)
 mlflow.set_experiment("Autologging Random Forest")
 
 df = pd.read_csv("preprocess.csv")

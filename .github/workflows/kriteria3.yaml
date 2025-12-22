@@ -46,7 +46,7 @@ jobs:
       - name: Build model serving image with MLflow 
         working-directory: kriteria3/
         run: |
-         mlfow models build-docker --model-uri "runs:/$RUN_ID/model" --name "kriteria3-model"
+          mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "kriteria3-model"
 
 
       - name: Push Docker image

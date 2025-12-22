@@ -1,0 +1,6 @@
+name: kriteria3
+
+entry_points:
+  main:
+    command: "python modelling.py"
+
