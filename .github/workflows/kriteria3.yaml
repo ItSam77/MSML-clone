@@ -25,7 +25,7 @@ jobs:
       - name: Train / log model with MLflow
         working-directory: kriteria3/
         run: |
-          mlfow run --env-manager=local 
+          mlflow run --env-manager=local 
 
       - name: Get Run ID
         run: |
