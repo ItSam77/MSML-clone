@@ -30,11 +30,10 @@ jobs:
       - name: Get Run ID
         working-directory: kriteria3/
         run: |
-          echo "=== Listing mlruns structure ==="
-          ls -la mlruns/ || echo "No mlruns folder"
-          ls -la mlruns/0/ || echo "No mlruns/0 folder"
+          echo "=== Listing mlruns/0/ ==="
+          ls -la mlruns/0/
           echo "=== Finding Run ID ==="
-          RUN_ID=$(find mlruns/0 -maxdepth 1 -type d -name '[a-f0-9]*' | head -n 1 | xargs basename)
+          RUN_ID=$(ls mlruns/0/ | grep -E '^[a-f0-9]{32}$' | head -n 1)
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
           echo "Found Run ID: $RUN_ID"
 
