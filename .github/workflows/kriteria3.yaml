@@ -28,15 +28,17 @@ jobs:
           mlflow run . --env-manager=local 
 
       - name: Get Run ID
+        working-directory: kriteria3/
         run: |
-          RUN_ID=$(ls -td mlruns/0/*/ | grep -Eo 'mlruns/0/[a-f0-9]{32}/' | head -n 1 | cut -d'/' -f3)
+          RUN_ID=$(ls -td mlruns/0/*/ | head -n 1 | xargs basename)
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+          echo "Found Run ID: $RUN_ID"
 
       - name: Saving model as artifact to github actions
         uses: actions/upload-artifact@v4
         with:
           name: kriteria3-model
-          path: mlruns/0/${{ env.RUN_ID }}
+          path: kriteria3/mlruns/0/${{ env.RUN_ID }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -47,7 +49,7 @@ jobs:
       - name: Build model serving image with MLflow 
         working-directory: kriteria3/
         run: |
-          mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "kriteria3-model"
+          mlflow models build-docker --model-uri "runs:/${{ env.RUN_ID }}/model" --name "itsam77/kriteria3-model"
 
 
       - name: Push Docker image
