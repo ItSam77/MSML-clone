@@ -23,8 +23,9 @@ jobs:
           pip install -r requirements.txt
 
       - name: Train / log model with MLflow
+        working-directory: kriteria3/
         run: |
-          mlflow run kriteria3 --env-manager=local 
+          mlflow run MLproject --env-manager=local 
 
       - name: Get Run ID
         run: |
