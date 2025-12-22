@@ -11,10 +11,14 @@ import warnings
 import os
 warnings.filterwarnings("ignore")
 
-# Use local tracking for CI/CD, or remote for local dev
-tracking_uri = os.getenv("MLFLOW_TRACKING_URI", "mlruns")
-mlflow.set_tracking_uri(tracking_uri)
-mlflow.set_experiment("Autologging Random Forest")
+# Check if running via mlflow run (CI/CD sets these env vars)
+is_mlflow_run = os.getenv("MLFLOW_RUN_ID") is not None
+
+if not is_mlflow_run:
+    # Only set tracking URI and experiment for local dev
+    tracking_uri = os.getenv("MLFLOW_TRACKING_URI", "mlruns")
+    mlflow.set_tracking_uri(tracking_uri)
+    mlflow.set_experiment("Autologging Random Forest")
 
 df = pd.read_csv("preprocess.csv")
 
@@ -31,8 +35,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 mlflow.sklearn.autolog()
 
 # Check if already running inside mlflow run (CI/CD)
-active_run = mlflow.active_run()
-if active_run:
+if is_mlflow_run:
     # Use existing run from mlflow run command
     model = RandomForestClassifier()
     model.fit(x_train, y_train)
