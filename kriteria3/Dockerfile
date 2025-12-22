@@ -11,6 +11,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy all files
 COPY . .
 
+RUN mkdir -p /app/model
+
 # Expose port
 EXPOSE 5000
 
