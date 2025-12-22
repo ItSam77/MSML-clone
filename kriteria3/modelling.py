@@ -30,14 +30,28 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 mlflow.sklearn.autolog()
 
-with mlflow.start_run(run_name="Autologging SVM"):
+# Check if already running inside mlflow run (CI/CD)
+active_run = mlflow.active_run()
+if active_run:
+    # Use existing run from mlflow run command
     model = RandomForestClassifier()
     model.fit(x_train, y_train)
     y_pred = model.predict(x_test)
 
-    print (classification_report(y_test, y_pred))
+    print(classification_report(y_test, y_pred))
+    print(f"Accuracy: {accuracy_score(y_test, y_pred)}")
+    print(f"Precision: {precision_score(y_test, y_pred, average='weighted')}")
+    print(f"Recall: {recall_score(y_test, y_pred, average='weighted')}")
+    print(f"F1 Score: {f1_score(y_test, y_pred, average='weighted')}")
+else:
+    # Create new run for local development
+    with mlflow.start_run(run_name="Autologging Random Forest"):
+        model = RandomForestClassifier()
+        model.fit(x_train, y_train)
+        y_pred = model.predict(x_test)
 
-    print (f"Accuracy: {accuracy_score(y_test, y_pred)}")
-    print (f"Precision: {precision_score(y_test, y_pred, average='weighted')}")
-    print (f"Recall: {recall_score(y_test, y_pred, average='weighted')}")
-    print (f"F1 Score: {f1_score(y_test, y_pred, average='weighted')}")
+        print(classification_report(y_test, y_pred))
+        print(f"Accuracy: {accuracy_score(y_test, y_pred)}")
+        print(f"Precision: {precision_score(y_test, y_pred, average='weighted')}")
+        print(f"Recall: {recall_score(y_test, y_pred, average='weighted')}")
+        print(f"F1 Score: {f1_score(y_test, y_pred, average='weighted')}")
